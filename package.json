@@ -1,7 +1,7 @@
 {
-  "name": "solana-dapp-next",
-  "version": "0.2.0",
-  "author": "Solana Maintainers <maintainers@solana.foundation>",
+  "name": "solana-permissonless-voting",
+  "version": "0.0.1",
+  "author": "Team 13 Encode@SOL-Bootcamp",
   "license": "MIT",
   "private": false,
   "scripts": {

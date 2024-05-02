@@ -8,7 +8,7 @@ import {
   TransactionSignature,
   VersionedTransaction,
 } from "@solana/web3.js";
-import { FC, useCallback } from "react";
+import { FC, useCallback, useState } from "react";
 import { notify } from "../utils/notifications";
 import idl from "../idls/voting_program.json";
 import { Program, Idl, AnchorProvider, setProvider } from "@coral-xyz/anchor";
@@ -16,13 +16,16 @@ import { Program, Idl, AnchorProvider, setProvider } from "@coral-xyz/anchor";
 export const SendAddChoicesTransaction: FC<{
   voteId: PublicKey;
   afterTxEvent: any;
-}> = ({ voteId, afterTxEvent }) => {
+  choiceLength: number;
+}> = ({ voteId, afterTxEvent, choiceLength }) => {
   const { connection } = useConnection();
   const anchorWallet = useAnchorWallet();
   const programId = new PublicKey(
     "EZfVvEW85B8Rqk3Jmu8ou2JDrb626ynze7bP1un1Nh37"
   );
-
+  const [choicesToAdd, setChoicesToAdd] = useState<string[]>(
+    new Array(choiceLength).fill("")
+  );
   const onClick = async () => {
     if (!anchorWallet) {
       notify({ type: "error", message: `Wallet not connected!` });
@@ -31,7 +34,6 @@ export const SendAddChoicesTransaction: FC<{
     }
 
     try {
-      let choices = ["Vanilla", "Strawberry", "Chocolate", "Caramel"];
       const provider = new AnchorProvider(connection, anchorWallet, {});
       setProvider(provider);
       const electionPDA = voteId;
@@ -40,8 +42,9 @@ export const SendAddChoicesTransaction: FC<{
         [Buffer.from("choices"), electionPDA.toBuffer()],
         program.programId
       )[0];
+      console.log(choicesToAdd);
       const transaction = await program.methods
-        .addChoices(choices)
+        .addChoices(choicesToAdd)
         .accounts({
           signer: anchorWallet.publicKey,
           choices: choicesPDA,
@@ -67,12 +70,26 @@ export const SendAddChoicesTransaction: FC<{
   };
 
   return (
-    <div className="flex flex-row justify-center">
+    <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center align-center">
+        {choicesToAdd.map((choice, index) => (
+          <div key={index} className="m-1">
+            <label className="text-white">Choice {index + 1}:</label>
+            <input
+              className="text-black ml-2"
+              type="text"
+              defaultValue={choice}
+              onChange={(e) => {
+                const choiceT = e.target.value;
+                const choicesT = [...choicesToAdd];
+                choicesT[index] = choiceT;
+                setChoicesToAdd([...choicesT]);
+              }}
+            />
+          </div>
+        ))}
+      </div>
       <div className="relative group items-center">
-        <div
-          className="m-1 absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 
-                rounded-lg blur opacity-20 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"
-        ></div>
         <button
           className="group w-60 m-2 btn animate-pulse bg-gradient-to-br from-indigo-500 to-fuchsia-500 hover:from-white hover:to-purple-300 text-black"
           onClick={onClick}

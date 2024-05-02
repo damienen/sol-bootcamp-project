@@ -40,6 +40,7 @@ export const VoteView: FC = ({}) => {
             choicesPDA
           );
           setChoicesAccount(choicesAccountT);
+          console.log(choicesAccount);
         } catch (e) {
           console.log(e);
         }
@@ -80,6 +81,7 @@ export const VoteView: FC = ({}) => {
   return (
     <div className="md:hero mx-auto p-4">
       <div className="md:hero-content flex flex-col">
+        <div>Unique vote ID: {voteId}</div>
         <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-indigo-500 to-fuchsia-500 mt-10 mb-8">
           {anchorWallet &&
           electionAccount &&
@@ -94,6 +96,7 @@ export const VoteView: FC = ({}) => {
                     afterTxEvent={() =>
                       setSendTxRefreshTrigger((oldState) => !oldState)
                     }
+                    choiceLength={electionAccount.choicesLen}
                   />
                 </div>
               )}

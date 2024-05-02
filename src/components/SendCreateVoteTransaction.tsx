@@ -12,7 +12,7 @@ import {
   TransactionSignature,
   VersionedTransaction,
 } from "@solana/web3.js";
-import { FC, useCallback } from "react";
+import { FC, useCallback, useState } from "react";
 import { notify } from "../utils/notifications";
 import idl from "../idls/voting_program.json";
 import { Program, Idl, AnchorProvider, setProvider } from "@coral-xyz/anchor";
@@ -25,6 +25,7 @@ export const SendCreateVoteTransaction: FC = () => {
   const programId = new PublicKey(
     "EZfVvEW85B8Rqk3Jmu8ou2JDrb626ynze7bP1un1Nh37"
   );
+  const [choiceLength, setChoiceLength] = useState(4);
   const router = useRouter();
 
   const onClick = async () => {
@@ -40,7 +41,7 @@ export const SendCreateVoteTransaction: FC = () => {
       const electionPDA = Keypair.generate();
       const program = new Program(idl as Idl, programId);
       const transaction = await program.methods
-        .createElection(4)
+        .createElection(choiceLength)
         .accounts({
           signer: anchorWallet.publicKey,
           election: electionPDA.publicKey,
@@ -66,12 +67,21 @@ export const SendCreateVoteTransaction: FC = () => {
   };
 
   return (
-    <div className="flex flex-row justify-center">
+    <div className="flex flex-col justify-center">
+      <div>
+        <label>How many choices will the vote have?</label>
+        <input
+          className="text-black text-center ml-3"
+          type="number"
+          style={{ width: "3rem" }}
+          defaultValue={choiceLength}
+          min={1}
+          onChange={(e) => {
+            setChoiceLength(Number(e.target.value));
+          }}
+        ></input>
+      </div>
       <div className="relative group items-center">
-        <div
-          className="m-1 absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 
-                rounded-lg blur opacity-20 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"
-        ></div>
         <button
           className="group w-60 m-2 btn animate-pulse bg-gradient-to-br from-indigo-500 to-fuchsia-500 hover:from-white hover:to-purple-300 text-black"
           onClick={onClick}
