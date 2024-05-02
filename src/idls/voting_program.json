@@ -1,0 +1,239 @@
+{
+  "version": "0.1.0",
+  "name": "voting_program",
+  "instructions": [
+    {
+      "name": "createElection",
+      "accounts": [
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "choisesLen",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "addChoices",
+      "accounts": [
+        {
+          "name": "election",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "choices",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "choices",
+          "type": {
+            "vec": "string"
+          }
+        }
+      ]
+    },
+    {
+      "name": "updateElectionState",
+      "accounts": [
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "state",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "vote",
+      "accounts": [
+        {
+          "name": "election",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "choices",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "choiceId",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Choices",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "choices",
+            "type": {
+              "vec": {
+                "defined": "Choice"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Election",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "state",
+            "type": "u8"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "winnerId",
+            "type": "u64"
+          },
+          {
+            "name": "winnerVotes",
+            "type": "u64"
+          },
+          {
+            "name": "choicesLen",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Voter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "choiceId",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Choice",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "votes",
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ElectionState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Inactive"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Closed"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidChoicesLength",
+      "msg": "Invalid choices length"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidChoice",
+      "msg": "Invalid choice"
+    }
+  ],
+  "metadata": {
+    "address": "Dn4gv254nEFu6hZePm6g8WDpPWHxdWXvZAbpYzCRMtaV"
+  }
+}
