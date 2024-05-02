@@ -3,6 +3,11 @@
 
 Create elections, voting campaigns, voting polls on Solana.
 
+Voting flow:
+
+![image](https://github.com/damienen/sol-bootcamp-project/assets/124439840/d79a2de1-947c-4af0-b952-ef859c1f2386)
+
+
 ## Installation
 
 ```bash
