@@ -1,5 +1,5 @@
 
-# Solana Bootcmap Project: Solana Permissionless Voting.
+# Pollivote: Solana Bootcamp Project - Solana Permissionless Voting.
 
 Create elections, voting campaigns, voting polls on Solana.
 
