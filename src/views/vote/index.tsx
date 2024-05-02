@@ -90,7 +90,7 @@ export const VoteView: FC = ({}) => {
               <div>You are the creator of this vote</div>
               {!choicesAccount && (
                 <div className="text-xl mt-5">
-                  <div>There are no choices defiend</div>
+                  <div>There are no choices defined</div>
                   <SendAddChoicesTransaction
                     voteId={electionPDA}
                     afterTxEvent={() =>
