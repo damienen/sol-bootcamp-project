@@ -12,7 +12,6 @@ export const BasicsView: FC = ({}) => {
         {/* CONTENT GOES HERE */}
         <div className="text-center">
           <SendCreateVoteTransaction />
-          <SendAddChoicesTransaction />
         </div>
       </div>
     </div>
