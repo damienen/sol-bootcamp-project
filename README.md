@@ -1,5 +1,8 @@
 
-# Solana Bootcamp Project: Solana Permissionless Voting.
+# Solana Bootcamp Project: Pollivote - Solana Permissionless Voting.
+
+![image](https://github.com/damienen/sol-bootcamp-project/assets/124439840/02e0f9ac-40a2-4de2-bfef-37c747ccc923)
+
 
 Create elections, voting campaigns, voting polls on Solana.
 
